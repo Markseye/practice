@@ -1,6 +1,13 @@
 class TicTacToe
 
-def banner
+  def initialize
+    @board = Array.new(9) {""}
+    banner
+    generate_board
+    get_player_names
+  end
+
+  def banner
   puts %q[                              
     _______                              ____
    |__   __|    ____  _      ____  ___  ||
@@ -10,11 +17,7 @@ def banner
       _______________________________________
   ]
   puts "Let's play"
-end  
-
-  def initialize
-    @board = Array.new(9) {""}
-  end
+  end  
 
   def generate_board
     puts "Here's the board layout. Enter number location when picking a spot"
@@ -136,6 +139,3 @@ end
 end
 
 z = TicTacToe.new
-z.banner
-z.generate_board
-z.get_player_names
