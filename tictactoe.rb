@@ -1,5 +1,17 @@
 class TicTacToe
 
+def banner
+  puts %q[                              
+    _______                              ____
+   |__   __|    ____  _      ____  ___  ||
+      | |  * //  ||  /_\  //  ||  // \\\\ ||--- 
+      | | || \\\\  || || || \\\\  ||  \\\\_// ||___
+  
+      _______________________________________
+  ]
+  puts "Let's play"
+end  
+
   def initialize
     @board = Array.new(9) {""}
   end
@@ -7,7 +19,7 @@ class TicTacToe
   def generate_board
     puts "Here's the board layout. Enter number location when picking a spot"
     #@board.each_with_index do |box_value, i|
-    line_break = "-----------------"
+    line_break = "---------------"
     pipe_break = "  |  "
     # if i % 3 != 0
     #   p "#{box_value} #{pipe_break}"
@@ -18,11 +30,13 @@ class TicTacToe
     #end
     #if board % 3 !=0 board[i] + pipe_break for i+1 through 9 else /n and line break
     #puts "Here's the board layout. Enter number location when picking a spot"
+    puts ""
     puts "#{@board[0]} #{pipe_break} #{@board[1]} #{pipe_break} #{@board[2]}"
     puts "#{line_break}"
     puts "#{@board[3]} #{pipe_break} #{@board[4]} #{pipe_break} #{@board[5]}"
     puts "#{line_break}"
     puts "#{@board[6]} #{pipe_break} #{@board[7]} #{pipe_break} #{@board[8]}"
+    puts ""
   end
 
   #get player info
@@ -107,6 +121,14 @@ class TicTacToe
     #define what wins the game
     win_combinations = [ [0,3,6], [0,4,8], [0,1,2], [1,4,7], [2,4,6], [2,5,8], [3,4,5], [6,7,8] ]
     #if sym fills any of these combos of 3, that player wins else, game is tie..play again?
+    #if board[x1]==board[x2]==board[3] then that player wins
+    win_combinations.each do |x| 
+      x.each_with_index do |w, i|
+        puts "#{@board[i][w]}"
+        #@board[6] == @board[3] and @board[3] == @board[0] .all_same?
+      end
+      puts "--"
+    end
     generate_board
     abort("game over")
   end
@@ -114,5 +136,6 @@ class TicTacToe
 end
 
 z = TicTacToe.new
+z.banner
 z.generate_board
 z.get_player_names
