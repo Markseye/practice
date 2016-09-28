@@ -137,6 +137,10 @@ class TicTacToe
           end
           generate_board
           abort("game over")
+        elsif unless @board.include? ""
+          abort("Game is a tie")
+          end
+        else
         end
       end
     end
