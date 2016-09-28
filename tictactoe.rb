@@ -1,5 +1,8 @@
 class TicTacToe
 
+  PLAYER1_SYM = "X"
+  PLAYER2_SYM = "O"
+
   def initialize
     @board = Array.new(9) {""}
     banner
@@ -56,7 +59,7 @@ class TicTacToe
 
   #randomize who gets first turn
   def first_turn(rand_num)
-    rand_num == 1 ? turns(1, "X") : turns(2, "O")
+    rand_num == 1 ? turns(1, PLAYER1_SYM) : turns(2, PLAYER2_SYM)
   end
 
   def turns(turn, player_sym)  
@@ -80,11 +83,11 @@ class TicTacToe
 
   #check if box is already taken and store move. then check for winner..should this be broken out?
   def check_box_avail(box_chosen, player_sym)
-    array_box = box_chosen -1
+    array_box = box_chosen - 1
     check_box_chosen(array_box, player_sym)
     if @board[array_box].empty?
       @board[array_box] = player_sym
-      #check_for_winner
+      check_for_winner
       switch_player(player_sym)
     else
       puts "That box is taken already."
@@ -106,7 +109,7 @@ class TicTacToe
   #switch player after turn
   def switch_player(player_sym)
     check_full_board
-    player_sym == "X" ? player_sym = "O" : player_sym = "X"
+    player_sym == PLAYER1_SYM ? player_sym = PLAYER2_SYM : player_sym = PLAYER1_SYM
     make_move(player_sym)
   end
 
@@ -124,16 +127,19 @@ class TicTacToe
     #define what wins the game
     win_combinations = [ [0,3,6], [0,4,8], [0,1,2], [1,4,7], [2,4,6], [2,5,8], [3,4,5], [6,7,8] ]
     #if sym fills any of these combos of 3, that player wins else, game is tie..play again?
-    #if board[x1]==board[x2]==board[3] then that player wins
-    win_combinations.each do |x| 
-      x.each_with_index do |w, i|
-        puts "#{@board[i][w]}"
-        #@board[6] == @board[3] and @board[3] == @board[0] .all_same?
+    for i in 0..7
+      win_combinations.each do |x| 
+        if (@board[x[0]] == @board[x[1]] && @board[x[0]] ==  @board[x[2]] && @board[x[0]] != "" && @board[x[1]] != "" && @board[x[2]] != "")
+          if @board[x[0]] == PLAYER1_SYM
+            puts "Player 1 Wins!!!!!!"
+          else
+            puts "Player 2 Wins!!!!!!"
+          end
+          generate_board
+          abort("game over")
+        end
       end
-      puts "--"
     end
-    generate_board
-    abort("game over")
   end
 
 end
