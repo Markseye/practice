@@ -9,4 +9,13 @@ describe 'Game' do
     expect(user_code.size).to eq(4)
   end
 
+  it "checks value of user guess in allowed choices" do
+  end
+
+  it "ends game when user guess matches game code" do
+  end
 end
+
+#need spec for entered amount being 4
+#need check for letters being guess in array of @@colors
+#game ends on matched arrays of user game to game_code
