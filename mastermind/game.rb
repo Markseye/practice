@@ -9,8 +9,6 @@ class Game
     @game_code = game_code
     @previous_board_status = []
     @count = 0
-    display_rules
-    get_guess
   end
 
   def display_rules
@@ -23,7 +21,6 @@ class Game
 
   def get_guess
     @user_guess = ""
-    puts @count
     if @count >= 5
       abort("You guessed 5 times incorrectly. You Lose")
     else
