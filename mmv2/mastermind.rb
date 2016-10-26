@@ -5,18 +5,18 @@ module Mastermind
     attr_accessor :code
 
     def gen_code
-      @code = 4.times.map{ rand(5) }.join("")
-      @code
+      return @code = 4.times.map{ rand(5) }.join("")
     end
 
   end
 
-  class Game < Code
+  class Game
 
     attr_reader :code, :user_guess
 
     def initialize(user_guess, code: Code.new.gen_code)
       @code = code
+      puts "#{@code}"
       @user_guess = user_guess
       guess_valid? ? is_winner? : "bad"
     end
@@ -33,7 +33,7 @@ module Mastermind
 end
 
 user_guess = gets.chomp
-c = Mastermind::Code.new
+c = Mastermind::Game.new(user_guess)
 
 
 #g = Mastermind::Game.new

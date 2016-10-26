@@ -16,17 +16,18 @@ end
 
 describe 'Game' do
 
-  before do
-    @game = Game.new("1234")
-  end
+  #will generate new game when game method is called
+  #and will use that throughout tests
+  let (:game) {Game.new("1234")}
 
     it 'should check that guess 4 digit number' do
-      expect(@game.guess_valid?).to eq(true)
+      expect(game.guess_valid?).to eq(true)
     end
 
+    #user wins should be last guess
     it 'should end game when user guess matches code' do
       @game.instance_variable_set(:@code, "1234")
-      expect(@game.is_winner?).to eq(true)
+      expect(game.is_winner?).to eq(true)
     end
 
 end
