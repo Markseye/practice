@@ -24,9 +24,14 @@ describe 'Game' do
       expect(game.guess_valid?).to eq(true)
     end
 
+    it 'should display each letter correctly guessed' do
+      game.instance_variable_set(:@code, [1, 3, 3, 3])
+      expect(game.check_each_num).to eq("1X3X")
+    end
+
     #user wins should be last guess
     it 'should end game when user guess matches code' do
-      @game.instance_variable_set(:@code, "1234")
+      game.instance_variable_set(:@code, "1234")
       expect(game.is_winner?).to eq(true)
     end
 
