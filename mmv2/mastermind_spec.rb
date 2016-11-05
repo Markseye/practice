@@ -31,12 +31,12 @@ describe 'Game' do
 
     it 'should move to next turn if guess is not correct' do
       game.instance_variable_set(:@code, [1, 3, 3, 3])
-      expect(game.win_or_next).to receive(next_turn)
+      expect(game.next_turn).to eql(true)
     end
 
     it 'should end game once turns count is 5' do
       @count = 5
-      expect(game.next_turn).to receive(end_game)
+      expect(game.end_game(false)).to eql(true)
     end
 
     #user wins should be last guess
