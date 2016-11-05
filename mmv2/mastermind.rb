@@ -24,6 +24,7 @@ module Mastermind
       @user_guess = user_guess
       @guess_results = []
       guess_valid? ? check_each_num : "Bad guess. Start over"
+      #do I want this returned in initialize as I probably want to display guess results
     end
 
     def guess_valid?
@@ -45,20 +46,20 @@ module Mastermind
     end
 
     def next_turn
-      puts "#{turn_count}"
       turn_count >= 4 ? end_game(false) : get_guess
+      return true
     end
 
     def get_guess
     end
 
     def turn_count
-      puts "#{@count += 1}...."
       @count += 1
     end
 
     def end_game(w_l)
       w_l ? puts("You won") : puts("You didn't guess correct after 5 turns. You lose")
+      return true
     end
 
     def is_winner?
