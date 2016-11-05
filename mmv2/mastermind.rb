@@ -13,11 +13,13 @@ module Mastermind
 
   class Game
 
-    attr_accessor :guess_results
+    attr_accessor :guess_results, :count
     attr_reader :code, :user_guess
 
     def initialize(user_guess, code: Code.new.gen_code)
+      @count = 0
       @code = code
+      @display_code = @code.join("")
       puts "#{@code}"
       @user_guess = user_guess
       @guess_results = []
@@ -31,12 +33,29 @@ module Mastermind
     # check each value of user guess vs code generated and only display correct values
     def check_each_num
       @guess_results = []
-      puts "#{@code}"
       @user_guess.split("").each_with_index do |x, index|
         @guess_results << (@code[index].to_s == @user_guess[index] ? @code[index] : "X")
       end
-      puts "#{@guess_results.join("")}"
+      win_or_next
       @guess_results.join("")
+    end
+
+    def win_or_next
+      is_winner? ? end_game(true) : next_turn
+    end
+
+    def next_turn
+      puts "#{@count}........."
+      turn_count >= 4 ? end_game(false) : puts("get guess")
+    end
+
+    def turn_count
+      puts "#{@count += 1}...."
+      @count += 1
+    end
+
+    def end_game(w_l)
+      w_l ? puts("You won") : puts("You didn't guess correct after 5 turns. You lose")
     end
 
     def is_winner?
