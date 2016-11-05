@@ -24,9 +24,19 @@ describe 'Game' do
       expect(game.guess_valid?).to eq(true)
     end
 
-    it 'should display each letter correctly guessed' do
+    it 'should display each letter correctly guessed, otherwise X' do
       game.instance_variable_set(:@code, [1, 3, 3, 3])
       expect(game.check_each_num).to eq("1X3X")
+    end
+
+    it 'should move to next turn if guess is not correct' do
+      game.instance_variable_set(:@code, [1, 3, 3, 3])
+      expect(game.win_or_next).to receive(next_turn)
+    end
+
+    it 'should end game once turns count is 5' do
+      @count = 5
+      expect(game.next_turn).to receive(end_game)
     end
 
     #user wins should be last guess
