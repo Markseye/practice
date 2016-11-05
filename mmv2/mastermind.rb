@@ -45,8 +45,11 @@ module Mastermind
     end
 
     def next_turn
-      puts "#{@count}........."
-      turn_count >= 4 ? end_game(false) : puts("get guess")
+      puts "#{turn_count}"
+      turn_count >= 4 ? end_game(false) : get_guess
+    end
+
+    def get_guess
     end
 
     def turn_count
