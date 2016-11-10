@@ -18,7 +18,7 @@ describe 'Game' do
 
   #will generate new game when game method is called
   #and will use that throughout tests
-  let (:game) {Game.new("1234")}
+  let (:game) {Game.new.guess("1234")}
 
     it 'should check that guess 4 digit number' do
       expect(game.guess_valid?).to eq(true)
