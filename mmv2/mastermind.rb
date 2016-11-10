@@ -13,42 +13,46 @@ module Mastermind
 
   class Game
 
-    attr_accessor :guess_results, :count
+    attr_accessor :guess_results, :count, :tot_guess_results
+    attr_writer :user_guess
     attr_reader :code
 
     def initialize(code: Code.new.gen_code)
       @count = 0
       @code = code
       @display_code = @code.join("")
-      @guess_results = []
-      #do I want this returned in initialize as I probably want to display guess results
+      @tot_guess_results = []
     end
 
-    #changed user gues to no longer be an instance variable because it should just be passed when guess is called
+    #process guess
     def guess(user_guess)
-      guess_valid?(user_guess) ? check_each_num(user_guess) : "Bad guess. Start over"
+      turn_count
+      @user_guess = user_guess
+      guess_valid? ? check_each_num : "Bad guess. Start over"
     end
 
-    def guess_valid?(user_guess)
-      return true if user_guess.match(/\A\d{#{Regexp.escape(@code.size.to_s).to_i}}\z/)
+    def guess_valid?
+      return true if @user_guess.match(/\A\d{#{Regexp.escape(@code.size.to_s).to_i}}\z/)
     end
 
     # check each value of user guess vs code generated and only display correct values
-    def check_each_num(user_guess)
-      @guess_results = []
-      user_guess.split("").each_with_index do |x, index|
-        @guess_results << (@code[index].to_s == user_guess[index] ? @code[index] : "X")
+    def check_each_num
+      ind_guess_results = []
+      @user_guess.split("").each_with_index do |x, index|
+        ind_guess_results << (@code[index].to_s == @user_guess[index] ? @code[index] : "X")
       end
-      win_or_next(user_guess)
-      puts @guess_results.join("")
+      @tot_guess_results << ind_guess_results
+      win_or_next
+      @tot_guess_results[(@count-1).to_i].join("")
+      #should display this as to let user know what portion of guess is match
     end
 
-    def win_or_next(user_guess)
-      is_winner?(user_guess) ? end_game(true) : next_turn
+    def win_or_next
+      is_winner? ? end_game(true) : next_turn
     end
 
     def next_turn
-      turn_count >= 4 ? end_game(false) : get_guess
+      @count >= 4 ? end_game(false) : get_guess
       return true
     end
 
@@ -72,8 +76,10 @@ module Mastermind
 end
 
 user_guess = gets.chomp
-c = Mastermind::Game.new.guess(user_guess)
+c = Mastermind::Game.new
+c.guess(user_guess)
 
+#if game is called after game, don't increment guess and throw exception
 
 #g = Mastermind::Game.new
 #g.get_user_guess("1234")
