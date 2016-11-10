@@ -14,35 +14,37 @@ module Mastermind
   class Game
 
     attr_accessor :guess_results, :count
-    attr_reader :code, :user_guess
+    attr_reader :code
 
-    def initialize(user_guess, code: Code.new.gen_code)
+    def initialize(code: Code.new.gen_code)
       @count = 0
       @code = code
       @display_code = @code.join("")
-      puts "#{@code}"
-      @user_guess = user_guess
       @guess_results = []
-      guess_valid? ? check_each_num : "Bad guess. Start over"
       #do I want this returned in initialize as I probably want to display guess results
     end
 
-    def guess_valid?
-      return true if @user_guess.match(/\A\d{#{Regexp.escape(@code.size.to_s).to_i}}\z/)
+    #changed user gues to no longer be an instance variable because it should just be passed when guess is called
+    def guess(user_guess)
+      guess_valid?(user_guess) ? check_each_num(user_guess) : "Bad guess. Start over"
+    end
+
+    def guess_valid?(user_guess)
+      return true if user_guess.match(/\A\d{#{Regexp.escape(@code.size.to_s).to_i}}\z/)
     end
 
     # check each value of user guess vs code generated and only display correct values
-    def check_each_num
+    def check_each_num(user_guess)
       @guess_results = []
-      @user_guess.split("").each_with_index do |x, index|
-        @guess_results << (@code[index].to_s == @user_guess[index] ? @code[index] : "X")
+      user_guess.split("").each_with_index do |x, index|
+        @guess_results << (@code[index].to_s == user_guess[index] ? @code[index] : "X")
       end
-      win_or_next
-      @guess_results.join("")
+      win_or_next(user_guess)
+      puts @guess_results.join("")
     end
 
-    def win_or_next
-      is_winner? ? end_game(true) : next_turn
+    def win_or_next(user_guess)
+      is_winner?(user_guess) ? end_game(true) : next_turn
     end
 
     def next_turn
@@ -70,7 +72,7 @@ module Mastermind
 end
 
 user_guess = gets.chomp
-c = Mastermind::Game.new(user_guess)
+c = Mastermind::Game.new.guess(user_guess)
 
 
 #g = Mastermind::Game.new
