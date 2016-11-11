@@ -20,7 +20,6 @@ module Mastermind
     def initialize(code: Code.new.gen_code)
       @count = 0
       @code = code
-      @display_code = @code.join("")
       @tot_guess_results = []
     end
 
@@ -57,6 +56,7 @@ module Mastermind
     end
 
     def get_guess
+      #way to inform interface that next guess is needed
     end
 
     def turn_count
